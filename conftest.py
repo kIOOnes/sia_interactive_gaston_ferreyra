@@ -1,7 +1,6 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from pages.landing_pages.config_page import configPage
 import allure
 
 
@@ -61,9 +60,9 @@ def base_url(request):
     env = request.config.getoption("--env")
 
     urls = {
-        "prod": "https://www.mercadolibre.com.ar",
-        "qa": "https://qa.mercadolibre.com",
-        "dev": "https://dev.mercadolibre.com"
+        "prod": "https://demo4.dexmanager.com/DexFrontEnd/#!/login?redirect=login",
+        "qa": "https://demo4.dexmanager.com/DexFrontEnd/#!/login?redirect=login",
+        "dev": "https://demo4.dexmanager.com/DexFrontEnd/#!/login?redirect=login"
     }
 
     return urls[env]
@@ -87,22 +86,6 @@ def driver(base_url):
 
     driver.get(base_url)
 
-    try:
-        config_page = configPage(driver)
-        config_page.accept_cookies()
-    except:
-        pass
-
     yield driver
 
     driver.quit()
-
-@pytest.fixture(autouse=True)
-def go_home_each_test(driver, base_url):
-    driver.get(base_url)
-
-    try:
-        config_page = configPage(driver)
-        config_page.accept_cookies()
-    except:
-        pass
